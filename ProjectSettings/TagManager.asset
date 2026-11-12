@@ -7,6 +7,9 @@ TagManager:
   - floor
   - berry
   - end
+  - meat
+  - hyena
+  - snake
   layers:
   - Default
   - TransparentFX
