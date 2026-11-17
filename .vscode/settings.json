@@ -67,5 +67,8 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "VideoGame_Project.slnx"
+    "dotnet.defaultSolution": "VideoGame_Project.slnx",
+    "chat.tools.terminal.autoApprove": {
+        "git add": true
+    }
 }
