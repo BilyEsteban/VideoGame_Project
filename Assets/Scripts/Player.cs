@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     private int berrycount;
     private int meatCount;
+    private SpriteRenderer spriteRenderer;
 
     public TMP_Text Text_berry;
     public TMP_Text Text_meat;
@@ -31,18 +32,29 @@ public class Player : MonoBehaviour
         Rb2D = GetComponent<Rigidbody2D>();
         localScale = transform.localScale;
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         move = Input.GetAxisRaw("Horizontal");
-        Rb2D.linearVelocity = new Vector2(move * speed, Rb2D.linearVelocity.y);
+        // Rb2D.linearVelocity = new Vector2(move * speed, Rb2D.linearVelocity.y);
 
         
-        if(move != 0)
+        // if(move != 0)
+        // {
+        //     transform.localScale = new Vector3(Mathf.Sign(move) * localScale.x, localScale.y, localScale.z);          
+        // }
+        Rb2D.linearVelocity = new Vector2(
+            move * speed,
+            Rb2D.linearVelocity.y
+        );
+
+        // Girar el personaje
+        if (move != 0)
         {
-            transform.localScale = new Vector3(Mathf.Sign(move) * localScale.x, localScale.y, localScale.z);          
+            spriteRenderer.flipX = move < 0;
         }
 
         
@@ -98,6 +110,22 @@ public class Player : MonoBehaviour
             {
                 GameManager.instance.GameOver();
             }
+        }
+
+        if(collision.transform.CompareTag("barril"))
+        {
+            Vector2 knockbackDir= (Rb2D.position - (Vector2)collision.transform.position).normalized;
+            Rb2D.linearVelocity = Vector2.zero;
+            Rb2D.AddForce(knockbackDir * 3, ForceMode2D.Impulse);
+
+            BoxCollider2D[] colliders = collision.gameObject.GetComponents<BoxCollider2D>();
+
+            foreach(BoxCollider2D col in colliders){
+                col.enabled = false;
+            }
+
+            collision.GetComponent<Animator>().enabled = true;
+            Destroy(collision.gameObject, 0.5f);
         }
     }
 

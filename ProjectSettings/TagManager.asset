@@ -10,6 +10,7 @@ TagManager:
   - meat
   - hyena
   - snake
+  - barril
   layers:
   - Default
   - TransparentFX
